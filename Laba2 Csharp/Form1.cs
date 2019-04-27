@@ -22,17 +22,7 @@ namespace Laba2_Csharp
 
         private void button1_Click(object sender, EventArgs e)
         {
-            line.Lineexample(textBox1);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            line.Lineparallelism(textBox2);
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            line.LineInfo(textBox3);
+            line.ShowInfo1(textBox1,textBox2,textBox3,textBox4,textBox5,textBox6,textBox7,textBox8,textBox9);
         }
     }
 }

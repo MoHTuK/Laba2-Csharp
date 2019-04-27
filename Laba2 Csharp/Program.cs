@@ -27,50 +27,54 @@ namespace Laba2_Csharp
     class MainClass
     {
 
-        Line line1 = new Line((float)2, (float)4, (float)1, (float)6);
-        Line line2 = new Line((float)3, (float)1, (float)2, (float)4);
-
-        public void Lineexample(TextBox field)
+        public void ShowInfo1(TextBox field1, TextBox field2, TextBox field3, TextBox field4, TextBox field5, TextBox field6, TextBox field7, TextBox field8, TextBox field9)
         {
+            int tg, k1, k2;
+            const double PI = 3.141592;
 
-
-            field.Text = "Line example : " + line1.LineEquation() + "Line example 2 : " + line2.LineEquation();
-        }    
-        
-        public void Lineparallelism(TextBox field)
-        {
-            double k1, k2,cos,angl;
-            
-
-
-           
-
-            k1 = (line1.y2 - line1.y1) / (line1.x2 - line1.x1);
-
-            k2 = (line2.y2 - line2.y1) / (line2.x2 - line2.x1);
-
-            cos = ((((( k1 * k2) + 1) / ((Math.Sqrt(( k1* k1) + 1)) * (Math.Sqrt((k2 * k2) + 1))))));
-            angl = cos;
-
-            if (k1 == k2)
-                field.Text = "Угл.коеф 1 = " + k1 + " |  Угл.коеф 2 = " + k2 + " | Прямые паралельны";
-            else
-                field.Text = "Угл.коеф 1 = " + k1 + " |  Угл.коеф 2 = " + k2 + " | Прямые не паралельны" + " Угол между прямыми = "+angl;
+            try
+            {
+                Line line1 = new Line(Convert.ToInt16(field1.Text), Convert.ToInt16(field2.Text), Convert.ToInt16(field3.Text), Convert.ToInt16(field4.Text));
+                Line line2 = new Line(Convert.ToInt16(field5.Text), Convert.ToInt16(field6.Text), Convert.ToInt16(field7.Text), Convert.ToInt16(field8.Text));
 
 
 
+
+
+                field9.Text = line1.ShowLine() + "\r\nA(" + line1.x1 + "," + line1.y1 + ")\r\nB(" + line1.x2 + "," + line1.y2 + ")\r\n" +
+                    line2.ShowLine() + "\r\nC(" + line2.x1 + "," + line2.y1 + ")\r\nD(" + line2.x2 + "," + line2.y2 + ")\r\n";
+
+
+                k1 = line1.CheckParalel(field9);
+                k2 = line2.CheckParalel(field9);
+
+
+
+                if (line1.CheckParalel(field9) == line2.CheckParalel(field9))
+                {
+                    field9.Text += " Прямые паралельны";
+                }
+                else
+                {
+                   
+                        k1 = line1.CheckParalel(field9);
+                        k2 = line2.CheckParalel(field9);
+                        tg = (k2 - k1) / (1 + k1 * k2);
+                        field9.Text += " Прямые  не паралельны" + "\r\n Угол между прямыми = " + Convert.ToInt16(Math.Abs(Math.Atan(tg) * 180 / PI));  
+                }
+            }
+            catch(FormatException)
+            {
+                field9.Text = "Введите коректные значения";
+            }
         }
 
-        public void LineInfo(TextBox field)
-        {
-            field.Text = "Прямая AB : " + "A(" + line1.x1 + ";" + line1.y1 + ")" + "B(" + line1.x2 + ";" + line1.y2 + ")" + "  Прямая CD : " + "C(" + line2.x1 + ";" + line2.y1 + ")" + "D(" + line2.x2 + ";" + line2.y2 + ")";
-        }
-
+       
         class Line
         {
-            public float x1, y1, x2, y2;
+            public int x1, y1, x2, y2;
 
-            public Line(float X1,float Y1,float X2,float Y2)
+            public Line(int X1, int Y1, int X2, int Y2)
             {
                 this.x1 = X1;
                 this.y1 = Y1;
@@ -79,29 +83,48 @@ namespace Laba2_Csharp
 
             }
 
-
-
-            public string LineEquation()
+            public string ShowLine()
             {
-                float x, y,xy;
+                int A,B,C;
                 string symbol;
+                A = y1 - y2;
+                B = x2 - x1;
+                C = (x1 * y2 - x2 * y1);
 
-                y = (float)(this.y1 - this.y2);
-                x = (float)(this.x2 - this.x1);
-                xy = (float)(this.x1 * this.y2 - this.x2 * this.y1);
-
-                if (xy > 0)
+                if (C > 0)
                     symbol = "+";
                 else
                     symbol = "-";
-                
 
-                return y + "x " + x + "y " + symbol + xy+" = 0 ";
+
+                return A + "x +" + B + "y " + symbol + C + " = 0 ";
 
             }
 
+            public int CheckParalel(TextBox field)
+            {
+                int k=0;
+
+                try
+                {
+                    k = (y2 - y1) / (x2 - x1);
+                    
+                }
+                catch (DivideByZeroException ex)
+                {
+                    field.Text = ex.Message;
+                }
+                return k;
+
+
+            }
+
+            
+
 
         }
+
+       
 
     }
 }
